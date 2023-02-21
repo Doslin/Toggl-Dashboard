@@ -7,25 +7,17 @@ then, data is collected when the some variable is assigned the class
 I have done some tests in api_test.ipynb if you wish to check it out
 """
 
-import os
 import pandas as pd
-import plotly
-import plotly.graph_objects as go
 import datetime
-import dash
-import dash_html_components as html
-import dash_core_components as dcc
-import re
 from collections import defaultdict, OrderedDict
 import requests
 import plotly.graph_objects as go
+
 import numpy as np
 import plotly.express as px
-import time
 from . import get_response
 
 # import get_response
-from importlib import resources
 
 
 def fetch_creds():
@@ -37,7 +29,7 @@ def fetch_creds():
         lines=[]
 
     if len(lines) == 0:
-        get_response.get_response()
+        get_response.get_response_df()
         file = open('creds.txt', "r")
         # file = resources.open_text("bin", "creds.txt")
         lines = file.readlines()
@@ -104,8 +96,8 @@ class Response:
 
         detailed_df = pd.DataFrame.from_dict(df_raw)
 
-        URL = "https://api.track.toggl.com/reports/api/v2/summary?workspace_id=4482767&since={}&until={}&user_agent={}".format(
-            str(self.sd), str(self.ed), self.email
+        URL = "https://api.track.toggl.com/reports/api/v2/summary?workspace_id={}&since={}&until={}&user_agent={}".format(
+            str(self.workspace_id), str(self.sd), str(self.ed), self.email
         )
         response = requests.get(URL, auth=(username, password)).json()
 
@@ -219,7 +211,7 @@ class Response:
             {"day": list(net_work.keys()), "work done": list(net_work.values())}
         )
         fig = px.bar(tmp, x="day", y="work done")
-        fig.update_layout(height=600, width=1550)
+        fig.update_layout(height=400, width=800)
 
         self.daily_df, self.daily_df_fig = tmp, fig
         return tmp, fig
@@ -260,7 +252,7 @@ class Response:
         for key in trace_dict.keys():
             y = list(trace_dict[key].values())
             fig.add_trace(go.Bar(x=days, y=y, name=key))
-        fig.update_layout(width=1500, barmode="stack")
+        fig.update_layout(width=750, barmode="stack")
 
         self.detailed_stacked_bar = fig
 
@@ -293,6 +285,7 @@ class Response:
         values = [item / 3600000 for item in values]
         return parents, labels, values
 
+    # 这是左上角的饼图
     def main_sunburst(self):
         df = self.summary_df
 

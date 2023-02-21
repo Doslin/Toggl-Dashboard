@@ -143,4 +143,4 @@ tests/
 toggldash.egg-info/
 creds.txt
 /toggldash/__pycache__
-/toggldash/response/__pycache__
+/response/__pycache__

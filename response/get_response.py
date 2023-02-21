@@ -13,7 +13,7 @@ def fix(lst):
         res.append("".join([a for a in list(item) if a != " "]))    
     return res
 
-def get_response():
+def get_response_df():
     email = input("Enter your email address:  ")
     token = input("Enter your secret token:   ")
     workspace_id = input("Enter your workspace id:   ")

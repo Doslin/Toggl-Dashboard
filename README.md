@@ -15,8 +15,11 @@ pip install toggldash
 </br>
 
 You can run the dashboard using the python code below:
+
 ```python
-from toggldash import app
+
+import app
+
 app.run()
 ```
 </br>
